@@ -1,0 +1,948 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>Predictive modelling: Viticulture in ancient Regio Laeetana </title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet-svg-shape-markers.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/Waterways_6.js"></script>
+        <script src="data/River_7.js"></script>
+        <script src="data/Road_8.js"></script>
+        <script src="data/SecondarySettlement_9.js"></script>
+        <script src="data/PrimarySettlement_10.js"></script>
+        <script src="data/Port_11.js"></script>
+        <script src="data/Facilitywithkilnkilns_12.js"></script>
+        <script src="data/Estimatedcatchmentareaofvilla_13.js"></script>
+        <script src="data/Romanvillawithwinepresspresses_14.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'feet',
+            secondaryLengthUnit: 'miles',
+            primaryAreaUnit: 'sqfeet',
+            secondaryAreaUnit: 'sqmiles'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        var layer_Satellite_0 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            opacity: 1.0,
+            attribution: '',
+        });
+        layer_Satellite_0;
+        map.addLayer(layer_Satellite_0);
+        var img_09_1 = 'data/09_1.png';
+        var img_bounds_09_1 = [[41.25985632195794,1.8815238060315778],[41.69606771363097,2.8277014454693647]];
+        var layer_09_1 = new L.imageOverlay(img_09_1, img_bounds_09_1);
+        bounds_group.addLayer(layer_09_1);
+        map.addLayer(layer_09_1);
+        var img_08_2 = 'data/08_2.png';
+        var img_bounds_08_2 = [[41.25985632195794,1.8815238060315778],[41.69606771363097,2.8277014454693647]];
+        var layer_08_2 = new L.imageOverlay(img_08_2, img_bounds_08_2);
+        bounds_group.addLayer(layer_08_2);
+        map.addLayer(layer_08_2);
+        var img_07_3 = 'data/07_3.png';
+        var img_bounds_07_3 = [[41.25985632195794,1.8815238060315778],[41.69606771363097,2.8277014454693647]];
+        var layer_07_3 = new L.imageOverlay(img_07_3, img_bounds_07_3);
+        bounds_group.addLayer(layer_07_3);
+        map.addLayer(layer_07_3);
+        var img_06_4 = 'data/06_4.png';
+        var img_bounds_06_4 = [[41.25985632195794,1.8815238060315778],[41.69606771363097,2.8277014454693647]];
+        var layer_06_4 = new L.imageOverlay(img_06_4, img_bounds_06_4);
+        bounds_group.addLayer(layer_06_4);
+        map.addLayer(layer_06_4);
+        var img_05_5 = 'data/05_5.png';
+        var img_bounds_05_5 = [[41.25985632195794,1.8815238060315778],[41.69606771363097,2.8277014454693647]];
+        var layer_05_5 = new L.imageOverlay(img_05_5, img_bounds_05_5);
+        bounds_group.addLayer(layer_05_5);
+        map.addLayer(layer_05_5);
+        function pop_Waterways_6(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['@id'] !== null ? Autolinker.link(String(feature.properties['@id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['name'] !== null ? Autolinker.link(String(feature.properties['name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['waterway'] !== null ? Autolinker.link(String(feature.properties['waterway'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['intermitte'] !== null ? Autolinker.link(String(feature.properties['intermitte'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['area'] !== null ? Autolinker.link(String(feature.properties['area'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['wikipedia'] !== null ? Autolinker.link(String(feature.properties['wikipedia'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['natural'] !== null ? Autolinker.link(String(feature.properties['natural'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['water'] !== null ? Autolinker.link(String(feature.properties['water'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['water_supp'] !== null ? Autolinker.link(String(feature.properties['water_supp'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['amenity'] !== null ? Autolinker.link(String(feature.properties['amenity'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['boat'] !== null ? Autolinker.link(String(feature.properties['boat'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['source'] !== null ? Autolinker.link(String(feature.properties['source'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['width'] !== null ? Autolinker.link(String(feature.properties['width'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['layer'] !== null ? Autolinker.link(String(feature.properties['layer'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['tunnel'] !== null ? Autolinker.link(String(feature.properties['tunnel'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fixme'] !== null ? Autolinker.link(String(feature.properties['fixme'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['surface'] !== null ? Autolinker.link(String(feature.properties['surface'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['level'] !== null ? Autolinker.link(String(feature.properties['level'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['covered'] !== null ? Autolinker.link(String(feature.properties['covered'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['boundary'] !== null ? Autolinker.link(String(feature.properties['boundary'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['wikidata'] !== null ? Autolinker.link(String(feature.properties['wikidata'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['seasonal'] !== null ? Autolinker.link(String(feature.properties['seasonal'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ford'] !== null ? Autolinker.link(String(feature.properties['ford'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['highway'] !== null ? Autolinker.link(String(feature.properties['highway'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['oneway'] !== null ? Autolinker.link(String(feature.properties['oneway'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['embankment'] !== null ? Autolinker.link(String(feature.properties['embankment'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['attraction'] !== null ? Autolinker.link(String(feature.properties['attraction'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['type'] !== null ? Autolinker.link(String(feature.properties['type'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['canoe'] !== null ? Autolinker.link(String(feature.properties['canoe'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['motorboat'] !== null ? Autolinker.link(String(feature.properties['motorboat'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ship'] !== null ? Autolinker.link(String(feature.properties['ship'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['descriptio'] !== null ? Autolinker.link(String(feature.properties['descriptio'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['bridge'] !== null ? Autolinker.link(String(feature.properties['bridge'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['man_made'] !== null ? Autolinker.link(String(feature.properties['man_made'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['substance'] !== null ? Autolinker.link(String(feature.properties['substance'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['bla'] !== null ? Autolinker.link(String(feature.properties['bla'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Waterways_6_0() {
+            return {
+                pane: 'pane_Waterways_6',
+                opacity: 1,
+                color: 'rgba(72,123,182,1.0)',
+                dashArray: '',
+                lineCap: 'round',
+                lineJoin: 'round',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_Waterways_6');
+        map.getPane('pane_Waterways_6').style.zIndex = 406;
+        map.getPane('pane_Waterways_6').style['mix-blend-mode'] = 'normal';
+        var layer_Waterways_6 = new L.geoJson(json_Waterways_6, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_Waterways_6',
+            layerName: 'layer_Waterways_6',
+            pane: 'pane_Waterways_6',
+            onEachFeature: pop_Waterways_6,
+            style: style_Waterways_6_0,
+        });
+        bounds_group.addLayer(layer_Waterways_6);
+        function pop_River_7(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_River_7_0() {
+            return {
+                pane: 'pane_River_7',
+                opacity: 1,
+                color: 'rgba(68,113,247,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_River_7');
+        map.getPane('pane_River_7').style.zIndex = 407;
+        map.getPane('pane_River_7').style['mix-blend-mode'] = 'normal';
+        var layer_River_7 = new L.geoJson(json_River_7, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_River_7',
+            layerName: 'layer_River_7',
+            pane: 'pane_River_7',
+            onEachFeature: pop_River_7,
+            style: style_River_7_0,
+        });
+        bounds_group.addLayer(layer_River_7);
+        map.addLayer(layer_River_7);
+        function pop_Road_8(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>Type</strong><br />' + (feature.properties['Type'] !== null ? Autolinker.link(String(feature.properties['Type'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Road_8_0() {
+            return {
+                pane: 'pane_Road_8',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Road_8');
+        map.getPane('pane_Road_8').style.zIndex = 408;
+        map.getPane('pane_Road_8').style['mix-blend-mode'] = 'normal';
+        var layer_Road_8 = new L.geoJson(json_Road_8, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Road_8',
+            layerName: 'layer_Road_8',
+            pane: 'pane_Road_8',
+            onEachFeature: pop_Road_8,
+            style: style_Road_8_0,
+        });
+        bounds_group.addLayer(layer_Road_8);
+        map.addLayer(layer_Road_8);
+        function pop_SecondarySettlement_9(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_SecondarySettlement_9_0() {
+            return {
+                pane: 'pane_SecondarySettlement_9',
+                radius: 8.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(227,255,223,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_SecondarySettlement_9');
+        map.getPane('pane_SecondarySettlement_9').style.zIndex = 409;
+        map.getPane('pane_SecondarySettlement_9').style['mix-blend-mode'] = 'normal';
+        var layer_SecondarySettlement_9 = new L.geoJson(json_SecondarySettlement_9, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SecondarySettlement_9',
+            layerName: 'layer_SecondarySettlement_9',
+            pane: 'pane_SecondarySettlement_9',
+            onEachFeature: pop_SecondarySettlement_9,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_SecondarySettlement_9_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_SecondarySettlement_9);
+        function pop_PrimarySettlement_10(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_PrimarySettlement_10_0() {
+            return {
+                pane: 'pane_PrimarySettlement_10',
+                radius: 8.8,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,215,201,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_PrimarySettlement_10');
+        map.getPane('pane_PrimarySettlement_10').style.zIndex = 410;
+        map.getPane('pane_PrimarySettlement_10').style['mix-blend-mode'] = 'normal';
+        var layer_PrimarySettlement_10 = new L.geoJson(json_PrimarySettlement_10, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PrimarySettlement_10',
+            layerName: 'layer_PrimarySettlement_10',
+            pane: 'pane_PrimarySettlement_10',
+            onEachFeature: pop_PrimarySettlement_10,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_PrimarySettlement_10_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_PrimarySettlement_10);
+        map.addLayer(layer_PrimarySettlement_10);
+        function pop_Port_11(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Port_11_0() {
+            return {
+                pane: 'pane_Port_11',
+                radius: 8.0,
+                opacity: 1,
+                color: 'rgba(83,87,4,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(246,250,11,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Port_11');
+        map.getPane('pane_Port_11').style.zIndex = 411;
+        map.getPane('pane_Port_11').style['mix-blend-mode'] = 'normal';
+        var layer_Port_11 = new L.geoJson(json_Port_11, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Port_11',
+            layerName: 'layer_Port_11',
+            pane: 'pane_Port_11',
+            onEachFeature: pop_Port_11,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Port_11_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Port_11);
+        function pop_Facilitywithkilnkilns_12(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Number of kilns found</strong><br />' + (feature.properties['Kilns fo'] !== null ? Autolinker.link(String(feature.properties['Kilns fo'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Number of kiln estimated</strong><br />' + (feature.properties['Kilns es'] !== null ? Autolinker.link(String(feature.properties['Kilns es'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Facilitywithkilnkilns_12_0() {
+            return {
+                pane: 'pane_Facilitywithkilnkilns_12',
+                shape: 'triangle',
+                radius: 8.4,
+                opacity: 1,
+                color: 'rgba(58,60,58,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(250,250,250,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Facilitywithkilnkilns_12');
+        map.getPane('pane_Facilitywithkilnkilns_12').style.zIndex = 412;
+        map.getPane('pane_Facilitywithkilnkilns_12').style['mix-blend-mode'] = 'normal';
+        var layer_Facilitywithkilnkilns_12 = new L.geoJson(json_Facilitywithkilnkilns_12, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Facilitywithkilnkilns_12',
+            layerName: 'layer_Facilitywithkilnkilns_12',
+            pane: 'pane_Facilitywithkilnkilns_12',
+            onEachFeature: pop_Facilitywithkilnkilns_12,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_Facilitywithkilnkilns_12_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Facilitywithkilnkilns_12);
+        function pop_Estimatedcatchmentareaofvilla_13(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>Number of presses estimated</strong><br />' + (feature.properties['Presses es'] !== null ? Autolinker.link(String(feature.properties['Presses es'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Area [sqm]</strong><br />' + (feature.properties['Area [sqm]'] !== null ? Autolinker.link(String(feature.properties['Area [sqm]'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Estimatedcatchmentareaofvilla_13_0() {
+            return {
+                pane: 'pane_Estimatedcatchmentareaofvilla_13',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.418)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,0.418)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Estimatedcatchmentareaofvilla_13');
+        map.getPane('pane_Estimatedcatchmentareaofvilla_13').style.zIndex = 413;
+        map.getPane('pane_Estimatedcatchmentareaofvilla_13').style['mix-blend-mode'] = 'normal';
+        var layer_Estimatedcatchmentareaofvilla_13 = new L.geoJson(json_Estimatedcatchmentareaofvilla_13, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Estimatedcatchmentareaofvilla_13',
+            layerName: 'layer_Estimatedcatchmentareaofvilla_13',
+            pane: 'pane_Estimatedcatchmentareaofvilla_13',
+            onEachFeature: pop_Estimatedcatchmentareaofvilla_13,
+            style: style_Estimatedcatchmentareaofvilla_13_0,
+        });
+        bounds_group.addLayer(layer_Estimatedcatchmentareaofvilla_13);
+        map.addLayer(layer_Estimatedcatchmentareaofvilla_13);
+        function pop_Romanvillawithwinepresspresses_14(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Study area</strong><br />' + (feature.properties['Study area'] !== null ? Autolinker.link(String(feature.properties['Study area'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Number of presses found</strong><br />' + (feature.properties['Presses fo'] !== null ? Autolinker.link(String(feature.properties['Presses fo'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Number of presses estimated</strong><br />' + (feature.properties['Presses es'] !== null ? Autolinker.link(String(feature.properties['Presses es'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Finish date</strong><br />' + (feature.properties['Finish dat'] !== null ? Autolinker.link(String(feature.properties['Finish dat'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Usage duration</strong><br />' + (feature.properties['Usage dura'] !== null ? Autolinker.link(String(feature.properties['Usage dura'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Initial date</strong><br />' + (feature.properties['ini da'] !== null ? Autolinker.link(String(feature.properties['ini da'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Romanvillawithwinepresspresses_14_0() {
+            return {
+                pane: 'pane_Romanvillawithwinepresspresses_14',
+                shape: 'diamond',
+                radius: 8.8,
+                opacity: 1,
+                color: 'rgba(34,71,29,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(127,218,129,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Romanvillawithwinepresspresses_14');
+        map.getPane('pane_Romanvillawithwinepresspresses_14').style.zIndex = 414;
+        map.getPane('pane_Romanvillawithwinepresspresses_14').style['mix-blend-mode'] = 'normal';
+        var layer_Romanvillawithwinepresspresses_14 = new L.geoJson(json_Romanvillawithwinepresspresses_14, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Romanvillawithwinepresspresses_14',
+            layerName: 'layer_Romanvillawithwinepresspresses_14',
+            pane: 'pane_Romanvillawithwinepresspresses_14',
+            onEachFeature: pop_Romanvillawithwinepresspresses_14,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_Romanvillawithwinepresspresses_14_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Romanvillawithwinepresspresses_14);
+        map.addLayer(layer_Romanvillawithwinepresspresses_14);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/Romanvillawithwinepresspresses_14.png" /> Roman villa with wine press/presses': layer_Romanvillawithwinepresspresses_14,'<img src="legend/Estimatedcatchmentareaofvilla_13.png" /> Estimated catchment area of villa': layer_Estimatedcatchmentareaofvilla_13,'<img src="legend/Facilitywithkilnkilns_12.png" /> Facility with kiln/kilns': layer_Facilitywithkilnkilns_12,'<img src="legend/Port_11.png" /> Port': layer_Port_11,'<img src="legend/PrimarySettlement_10.png" /> Primary Settlement': layer_PrimarySettlement_10,'<img src="legend/SecondarySettlement_9.png" /> Secondary Settlement': layer_SecondarySettlement_9,'<img src="legend/Road_8.png" /> Road': layer_Road_8,'<img src="legend/River_7.png" /> River': layer_River_7,'<img src="legend/Waterways_6.png" /> Waterways<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Suitability': layer_Waterways_6,'<img src="legend/5.png" /> 0.5 - < 0.6': layer_05_5,'<img src="legend/6.png" /> 0.6 - < 0.7': layer_06_4,'<img src="legend/7.png" /> 0.7 - < 0.8': layer_07_3,'<img src="legend/8.png" /> 0.8 - < 0.9': layer_08_2,'<img src="legend/1.png" /> 0.9 - 1<br>&nbsp;<br>': layer_09_1,"Satellite": layer_Satellite_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_River_7.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((exp_label_River_7_eval_expression(context) !== null?String('<div style="color: #000000; font-size: 10pt; font-family: \'.SF NS Text\', sans-serif;">' + exp_label_River_7_eval_expression(context)) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_River_7'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var i = 0;
+        layer_PrimarySettlement_10.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['Name'] !== null?String('<div style="color: #000000; font-size: 10pt; font-weight: bold; font-family: \'.SF NS Text\', sans-serif;">' + layer.feature.properties['Name']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_PrimarySettlement_10'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"Usage dura": "int","Presses es": "int","ini da": "real","Study area": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  for (option in Array.from(
+                    document.getElementById(
+                      "sel_" + key).selectedOptions)){
+                    selection.push(
+                      document.getElementById("sel_"+key)
+                      .selectedOptions[option].value);
+                    }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int" || Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + key).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Usagedura = document.createElement("div");
+            div_Usagedura.id = "div_Usage dura";
+            div_Usagedura.className = "slider";
+            document.getElementById("menu").appendChild(div_Usagedura);
+            var lab_Usagedura = document.createElement('p');
+            lab_Usagedura.innerHTML  = 'Filter sites by there estimated duration of usage [yr]: <span id="val_Usage dura"></span>';
+            lab_Usagedura.className = 'slider';
+            document.getElementById("menu").appendChild(lab_Usagedura);
+            var sel_Usagedura = document.getElementById('div_Usage dura');
+            noUiSlider.create(sel_Usagedura, {
+                connect: true,
+                start: [75, 525],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 75,
+                max: 525
+                }
+            });
+            sel_Usagedura.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Usagedura = document.getElementById('val_Usage dura');
+            val_Usagedura.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Presseses = document.createElement("div");
+            div_Presseses.id = "div_Presses es";
+            div_Presseses.className = "slider";
+            document.getElementById("menu").appendChild(div_Presseses);
+            var lab_Presseses = document.createElement('p');
+            lab_Presseses.innerHTML  = 'Filter sites by number of presses estimated: <span id="val_Presses es"></span>';
+            lab_Presseses.className = 'slider';
+            document.getElementById("menu").appendChild(lab_Presseses);
+            var sel_Presseses = document.getElementById('div_Presses es');
+            noUiSlider.create(sel_Presseses, {
+                connect: true,
+                start: [1, 6],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 1,
+                max: 6
+                }
+            });
+            sel_Presseses.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Presseses = document.getElementById('val_Presses es');
+            val_Presseses.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_inida = document.createElement("div");
+            div_inida.id = "div_ini da";
+            div_inida.className = "slider";
+            document.getElementById("menu").appendChild(div_inida);
+            var lab_inida = document.createElement('p');
+            lab_inida.innerHTML  = 'Filter sites by there estimated initial date : <span id="val_ini da"></span>';
+            lab_inida.className = 'slider';
+            document.getElementById("menu").appendChild(lab_inida);
+            var sel_inida = document.getElementById('div_ini da');
+            noUiSlider.create(sel_inida, {
+                connect: true,
+                start: [-100.0, 50.0],
+                range: {
+                min: -100.0,
+                max: 50.0
+                }
+            });
+            sel_inida.noUiSlider.on('update', function (values) {
+            val_inida = document.getElementById('val_ini da');
+            val_inida.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Studyarea = document.createElement('div');
+            div_Studyarea.id = "div_Study area";
+            div_Studyarea.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Studyarea);
+            sel_Studyarea = document.createElement('select');
+            sel_Studyarea.multiple = true;
+            sel_Studyarea.id = "sel_Study area";
+            var Studyarea_options_str = "<option value='' unselected></option>";
+            sel_Studyarea.onchange = function(){filterFunc()};
+            Studyarea_options_str  += '<option value="Costa central">Central Coast</option>';
+            Studyarea_options_str  += '<option value="Plain de Barcelona">Barcelona Hinterland Plain</option>';
+            Studyarea_options_str  += '<option value="Plana vallesana">Vallesian Plain</option>';
+            Studyarea_options_str  += '<option value="Cursbaix/estuari Llobregat">Lower Llobregat</option>';
+            sel_Studyarea.innerHTML = Studyarea_options_str;
+            div_Studyarea.appendChild(sel_Studyarea);
+            var lab_Studyarea = document.createElement('div');
+            lab_Studyarea.innerHTML = 'Filter sides by study area<br>&nbsp;<br> This map shows the results from predictive modelling of suitability areas for sites related to roman viticulture in the Laetanian Region. <br>&nbsp;<br>The model was calculated from cost distances to ancient roads, rivers, settlements, coastline and favorable hillsides and various topographical variables (aspect, slope, terrain surface texture, wind effect, vertical distance to channel network).';
+            lab_Studyarea.className = 'filterLabel';
+            div_Studyarea.appendChild(lab_Studyarea);
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        resetLabels([layer_River_7,layer_SecondarySettlement_9,layer_PrimarySettlement_10]);
+        map.on("zoomend", function(){
+            resetLabels([layer_River_7,layer_SecondarySettlement_9,layer_PrimarySettlement_10]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_River_7,layer_SecondarySettlement_9,layer_PrimarySettlement_10]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_River_7,layer_SecondarySettlement_9,layer_PrimarySettlement_10]);
+        });
+        </script>
+    </body>
+</html>
