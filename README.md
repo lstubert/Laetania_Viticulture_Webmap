@@ -1,4 +1,4 @@
-# Laetania Viticulture Webmap
+# Laetanian Viticulture Webmap
 
 See the web map here:
 
